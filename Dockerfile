@@ -1,0 +1,1 @@
+FROM ghcr.io/itzg/minecraft-server:2025.3.0-java17-graalvm
