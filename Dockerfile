@@ -8,21 +8,7 @@ ARG TARGETARCH
 ARG TARGETVARIANT
 #
 #RUN apt update && apt install -y rcon
-USER root
-# Controlla se `apt` o `apk` è disponibile
-RUN if command -v apt-get > /dev/null; then \
-      apt-get update && apt-get install -y \
-      rcon \
-      && apt-get clean && rm -rf /var/lib/apt/lists/*; \
-    elif command -v apk > /dev/null; then \
-      apk update && apk add --no-cache \
-      rcon; \
-    else \
-      echo "Gestore di pacchetti non riconosciuto"; \
-      exit 1; \
-    fi
 
-USER minecraft
 #ENV UID=1026
 #ENV GID=100
 ENV TYPE=FABRIC
