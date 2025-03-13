@@ -1,6 +1,6 @@
 FROM ghcr.io/itzg/minecraft-server:2025.3.0-java17-graalvm
-#RUN apt update
-#RUN apt install -y rcon
+#
+RUN apt update && apt install -y rcon
 #ENV UID=1026
 #ENV GID=100
 ENV TYPE=FABRIC
@@ -14,3 +14,5 @@ ADD https://cdn.modrinth.com/data/MdwFAVRL/versions/EVozVxCq/Cobblemon-fabric-1.
 #
 #RUN wget https://modrinth.com/modpack/cobblemon-fabric?version=1.20.1
 #RUN wget https://modrinth.com/mod/modern-industrialization
+
+ENTRYPOINT ["/start"]
