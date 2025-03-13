@@ -1,6 +1,12 @@
 #ARG arch
 FROM ghcr.io/itzg/minecraft-server:2025.3.0-java17-graalvm
 #
+# hook into docker BuildKit --platform support
+# see https://docs.docker.com/engine/reference/builder/#automatic-platform-args-in-the-global-scope
+ARG TARGETOS
+ARG TARGETARCH
+ARG TARGETVARIANT
+#
 RUN apt update && apt install -y rcon
 #ENV UID=1026
 #ENV GID=100
