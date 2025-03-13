@@ -1,5 +1,5 @@
-ARG arch
-FROM --platform=linux/${arch} ghcr.io/itzg/minecraft-server:2025.3.0-java17-graalvm
+#ARG arch
+FROM ghcr.io/itzg/minecraft-server:2025.3.0-java17-graalvm
 #
 RUN apt update && apt install -y rcon
 #ENV UID=1026
