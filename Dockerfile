@@ -17,7 +17,7 @@ ENV SERVER_NAME=BonoCraft
 #ENV MAX_MEMORY=6G
 ENV EULA=TRUE
 ENV VERSION=1.20.1
-ADD mods /data/mods/
+COPY mods /data/mods/
 ADD https://cdn.modrinth.com/data/MdwFAVRL/versions/EVozVxCq/Cobblemon-fabric-1.5.2%2B1.20.1.jar /data/mods/Cobblemon-fabric-1.5.2%2B1.20.1.jar
 #
 #RUN wget https://modrinth.com/modpack/cobblemon-fabric?version=1.20.1
