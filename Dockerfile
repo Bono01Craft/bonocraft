@@ -1,4 +1,5 @@
 FROM ghcr.io/itzg/minecraft-server:2025.3.0-java17-graalvm
+RUN apt update
 RUN apt install -y rcon
 #ENV UID=1026
 #ENV GID=100
