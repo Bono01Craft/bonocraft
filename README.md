@@ -26,46 +26,45 @@ BonoCraft combines the fun of Cobblemon with the technical complexity of Modern 
    Clone this repository to your local machine:
    ```bash
    git clone https://github.com/Bono01Craft/bonocraft.git
+   ```
    
-Install Minecraft Forge
-
-
+1. Install Minecraft with modrinth app
 Download and install the recommended version of Minecraft Forge for mod compatibility.
 
-Download the Mods
+2. Download the Mods
 
 Ensure you have the latest versions of the Cobblemon and Modern Industrialization mods.
 
-Add Mods to Minecraft
+3. Add Mods to Minecraft
 
 Place all the downloaded mod .jar files into your Minecraft mods directory.
 
-Launch Minecraft
+4. Launch Minecraft
 
 Start Minecraft with the Forge profile.
 
-Server Setup
+### Server Setup
 If you wish to set up a dedicated server:
 
-Install Server Files
+### Install Server Files
 
 Use the files provided in the server directory of this repository to set up your server environment.
 
-Configure the Server
+### Configure the Server
 
 Adjust the server.properties and other configuration files as necessary to customize your server settings.
 
-Start the Server
+### Start the Server
 
 Run the server with the launch script provided for your operating system.
 
-Contributing
+### Contributing
 We welcome contributions! Please fork the repository and submit a pull request with your changes.
 
-License
+### License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-Contact
+### Contact
 For questions or support, please open an issue on GitHub or contact the maintainers directly.
 
 Happy crafting!
