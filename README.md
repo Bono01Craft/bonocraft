@@ -50,7 +50,7 @@ If you wish to set up a dedicated server:
 
 Use the files provided in the server directory of this repository to set up your server environment.
 
-### Configure the Server
+### Configure the Server
 
 Adjust the server.properties and other configuration files as necessary to customize your server settings.
 
@@ -61,13 +61,13 @@ Run the server with the launch script provided for your operating system.
 ### Contributing
 We welcome contributions! Please fork the repository and submit a pull request with your changes.
 
-### License
+### License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-### Contact
+### Contact
 For questions or support, please open an issue on GitHub or contact the maintainers directly.
 
-Happy crafting!
-
+### Happy crafting!
 
 Feel free to adjust the text to fit the specific details of your project, such as any additional setup instructions or unique features.
+
