@@ -1,0 +1,15 @@
+FROM ghcr.io/itzg/minecraft-server:2025.3.0-java17-graalvm
+#
+ARG TARGETOS
+ARG TARGETARCH
+ARG TARGETVARIANT
+#
+ENV TYPE=NEOFORGE
+ENV SERVER_NAME=BonoCraft
+ENV EULA=TRUE
+ENV VERSION=1.21.1
+ADD mods /data/mods_neoforge/
+ADD https://cdn.modrinth.com/data/MdwFAVRL/versions/eLcb8xod/Cobblemon-neoforge-1.6.1%2B1.21.1.jar  /data/mods/Cobblemon-neoforge-1.6.1%2B1.21.1.jar
+#
+ENTRYPOINT ["/start"]
+#
