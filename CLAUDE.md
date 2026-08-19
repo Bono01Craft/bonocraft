@@ -10,13 +10,13 @@ altri tool. Qui sotto solo ciò che è specifico di Claude Code.
 
 ## Attenzione: questo repo è pesante e binario
 
-1.6 GB di working tree, 581 file `.jar`/`.zip`/`.disabled`, zero righe di codice sorgente. I comandi che
+1.6 GB di working tree, 582 file `.jar`/`.zip`/`.disabled`, zero righe di codice sorgente. I comandi che
 useresti di riflesso qui sono lenti o inutili:
 
 - **Non leggere né grep-are i `.jar`/`.zip`.** Sono archivi binari. `Read` fallisce, `grep -r` sputa
   megabyte di rumore. Per l'inventario usa `ls <cartella>`; per i metadati di un singolo mod
   `unzip -p <jar> fabric.mod.json` o `META-INF/neoforge.mods.toml`.
-- **Non lanciare `find .` o `grep -r` dalla root.** Attraversa 581 binari e ~1 GB di `.git`.
+- **Non lanciare `find .` o `grep -r` dalla root.** Attraversa 582 binari e ~1 GB di `.git`.
   Restringi sempre alla cartella o al pattern che ti serve.
 - **Non usare `Glob`/`Grep` per capire "cosa fa" il pack.** La risposta è nei nomi dei file:
   `ls mods_neoforge | sort`.

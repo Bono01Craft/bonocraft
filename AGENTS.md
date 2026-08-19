@@ -20,7 +20,7 @@ Il "prodotto" sono immagini Docker, non artefatti compilati.
 | Percorso | Loader | MC | Usato da | Note |
 |---|---|---|---|---|
 | `mods/` | Fabric | 1.20.1 | `Dockerfile` | 125 jar |
-| `mods_neoforge/` | NeoForge | 1.21.1 | `Dockerfile.neoforge` | 84 jar |
+| `mods_neoforge/` | NeoForge | 1.21.1 | `Dockerfile.neoforge` | 85 jar |
 | `mods_homestead/` | Fabric | 1.20.1 | **nessuno** | 373 jar, 78 con estensione `.disabled` |
 | `.github/workflows/` | — | — | — | due workflow build+push su GHCR |
 
@@ -75,8 +75,14 @@ Piattaforme: `linux/amd64,linux/arm64` (build lento, due arch × due immagini pe
 Queste sono le convenzioni che contano davvero. Violarle rompe il server in runtime, non in build.
 
 1. **Un jar deve corrispondere a loader + versione MC della sua cartella.** Un jar Fabric in
-   `mods_neoforge/` (o viceversa) non viene caricato o fa crashare l'avvio. Il nome file è
-   l'unica documentazione: rispetta la convenzione `nome-<loader>-<versione>+mc<MC>.jar`.
+   `mods_neoforge/` (o viceversa) non viene caricato o fa crashare l'avvio.
+   **Il nome file non è una fonte attendibile per la versione MC.** Molti autori ci mettono la
+   versione MC *massima* supportata, non l'unica: `reeses-sodium-options-neoforge-1.8.3+mc1.21.4.jar`
+   dichiara `minecraft versionRange = "[1.21,)"` e funziona benissimo su 1.21.1. Prima di dichiarare
+   un mismatch, **leggi i metadati**:
+   ```bash
+   unzip -p mods_neoforge/<file>.jar META-INF/neoforge.mods.toml | grep -A2 -i 'modId = "minecraft"'
+   ```
 2. **Non aggiungere Cobblemon dentro `mods/` o `mods_neoforge/`.** Arriva via `ADD` dal Dockerfile.
    Averlo in due posti significa due copie nella stessa cartella `/data/mods` → crash.
 3. **Le dipendenze vanno aggiunte a mano.** Niente risolve i requisiti dei mod qui. Se aggiungi un
@@ -97,15 +103,19 @@ Queste sono le convenzioni che contano davvero. Violarle rompe il server in runt
 Sono osservazioni verificabili leggendo i file, non speculazioni. Vanno confermate con chi
 mantiene il server prima di modificare qualcosa.
 
-- **Java 17 con MC 1.21.1.** Entrambi i Dockerfile usano
-  `ghcr.io/itzg/minecraft-server:2025.3.0-java17-graalvm`. Minecraft 1.20.5+ richiede Java 21;
-  `Dockerfile.neoforge` gira su 1.21.1. Sospetto che l'immagine NeoForge non parta. Il fix è la
-  variante `java21-graalvm` (per il ramo Fabric 1.20.1 Java 17 è corretto).
-- **Nessun limite di memoria.** `MAX_MEMORY` è commentato in `Dockerfile`, assente in
-  `Dockerfile.neoforge`. Il default dell'immagine itzg è 1G, insufficiente per 84 mod + Cobblemon.
-  Va impostato a runtime (`-e MEMORY=6G`) oppure nel Dockerfile.
-- **Mismatch di versione:** `mods_neoforge/reeses-sodium-options-neoforge-1.8.3+mc1.21.4.jar` è per
-  MC 1.21.4 in un pack 1.21.1.
+- ~~**Java 17 con MC 1.21.1.**~~ **Risolto.** `Dockerfile.neoforge` usa ora
+  `2025.3.0-java21-graalvm`; `Dockerfile` (Fabric 1.20.1) resta su java17, che è corretto.
+  Non riportare il ramo NeoForge a Java 17: MC >= 1.20.5 richiede Java 21.
+- ~~**Nessun limite di memoria.**~~ **Risolto.** Entrambi i Dockerfile impostano `MEMORY=6G` e
+  `USE_AIKAR_FLAGS=true`. Il valore è un default sovrascrivibile a runtime con `-e MEMORY=...`:
+  verificato che l'immagine registri `[init] Setting initial memory to <valore>` e
+  `[init] Using Aikar's flags`.
+- **NeoForge non è pinnata.** I Dockerfile fissano `VERSION` (la versione MC) ma lasciano che
+  l'immagine risolva l'ultima build di NeoForge disponibile — al momento la 21.1.248. Significa che
+  la stessa `docker build` può produrre un server che parte oggi e crasha domani, senza che nessun
+  file del repo sia cambiato. È già accaduto: due sidemod Cobblemon buildati contro una NeoForge
+  21.1.x più vecchia crashavano con `NoClassDefFoundError: net/neoforged/fml/Bindings` su 21.1.248.
+  Valutare `ENV NEOFORGE_VERSION=<build>` per rendere il build riproducibile.
 - **Peso del repo:** ~1.6 GB di working tree, ~1.0 GB di storia git. In `.gitignore` la riga
   `#*.jar` è commentata, quindi i jar sono committati. Ogni upgrade di mod aggiunge un binario
   nuovo alla storia per sempre. Vedi la sezione 8.
