@@ -62,7 +62,12 @@ Run the server with the launch script provided for your operating system.
 We welcome contributions! Please fork the repository and submit a pull request with your changes.
 
 ### License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+The MIT license covers **this repository's own files** (Dockerfiles, CI workflows, documentation).
+It does **not** cover the third-party mod `.jar` files shipped in `mods/`, `mods_neoforge/` and
+`mods_homestead/`: each mod is subject to its own license, and redistribution permission varies per
+mod. If you fork or redistribute the resulting Docker images, verify the terms of each mod you ship.
 
 ### Contact
 For questions or support, please open an issue on GitHub or contact the maintainers directly.

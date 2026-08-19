@@ -1,4 +1,5 @@
-FROM ghcr.io/itzg/minecraft-server:2025.3.0-java17-graalvm
+# MC 1.21.1 richiede Java 21 (MC >= 1.20.5). NON tornare a java17: il server non parte.
+FROM ghcr.io/itzg/minecraft-server:2025.3.0-java21-graalvm
 #
 ARG TARGETOS
 ARG TARGETARCH
@@ -6,6 +7,11 @@ ARG TARGETVARIANT
 #
 ENV TYPE=NEOFORGE
 ENV SERVER_NAME=BonoCraft
+# Default dell'immagine itzg = 1G, insufficiente per 84 mod + Cobblemon.
+# Sovrascrivibile a runtime con -e MEMORY=...
+ENV MEMORY=6G
+# I flag G1 di Aikar, gestiti dall'immagine.
+ENV USE_AIKAR_FLAGS=true
 ENV EULA=TRUE
 ENV VERSION=1.21.1
 COPY mods_neoforge /data/mods/
