@@ -1,0 +1,58 @@
+name: Validate BonoCraft pack
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Check Dockerfiles
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+          failure-threshold: error
+
+      - name: Check NeoForge Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile.neoforge
+          failure-threshold: error
+
+      - name: Check mod inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for directory in mods mods_neoforge; do
+            test -d "$directory"
+            test -n "$(find "$directory" -maxdepth 1 -type f -name '*.jar' -print -quit)"
+          done
+
+          if find mods mods_neoforge -maxdepth 1 -type f -name '*.disabled' -print -quit | grep -q .; then
+            echo "Disabled mod files must not be present in production packs" >&2
+            exit 1
+          fi
+
+          for directory in mods mods_neoforge; do
+            duplicate_names=$(find "$directory" -maxdepth 1 -type f -name '*.jar' -print \
+              | sed 's#^.*/##' \
+              | sort \
+              | uniq -d)
+            if [[ -n "$duplicate_names" ]]; then
+              echo "Duplicate mod filenames found in $directory:" >&2
+              printf '%s\n' "$duplicate_names" >&2
+              exit 1
+            fi
+          done
